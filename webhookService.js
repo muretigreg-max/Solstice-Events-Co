@@ -1,20 +1,5 @@
 'use strict';
 
-/**
- * WebhookService owns every write to the inventory store. Signature
- * verification happens one layer up, in the route (it needs the raw
- * request body, before JSON parsing) - by the time an event reaches this
- * service, it has already been authenticated as genuinely from the
- * supplier. This service's job is to apply it *safely*:
- *
- *  1. Exact redelivery of an already-processed event (same eventId) is a
- *     harmless no-op - the vendor's at-least-once delivery may resend.
- *  2. A per-SKU update is only applied if this event's timestamp is newer
- *     than the last-applied timestamp already recorded for that SKU. This
- *     is what makes OUT-OF-ORDER delivery safe: a delayed event that
- *     arrives after a newer one for the same SKU is recognized as stale
- *     and ignored, even though it passes signature verification and even
- *     though it's a "new" eventId.
  *  3. Every write goes through a mutex so concurrent webhook deliveries
  *     can't race each other into a lost update.
  */
