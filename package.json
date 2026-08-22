@@ -1,17 +1,22 @@
 {
   "name": "inventory-sync",
-  "version": "1.0.0",
-  "description": "Polling-based inventory sync prototype, with a standalone webhook signature-verification spike for an upcoming pivot.",
-  "main": "poller.js",
+  "version": "2.0.0",
+  "description": "Webhook-based inventory sync, with HMAC-SHA256 signature verification. Pivoted from a polling-based prototype after the supplier deprecated its pull-based catalog endpoint in favor of push webhooks.",
+  "main": "src/server.js",
   "scripts": {
+    "start:receiver": "node src/server.js",
     "start:supplier": "node mockSupplier.js",
-    "start:poller": "node poller.js",
-    "spike:signature": "node signatureVerification.js"
+    "demo:signature": "node signatureVerification.js",
+    "test": "node --test test/**/*.test.js"
   },
   "keywords": [],
   "author": "Mureti",
   "license": "ISC",
   "dependencies": {
     "express": "^5.2.1"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
+
